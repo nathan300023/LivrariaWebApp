@@ -6,7 +6,8 @@ CREATE TABLE livraria.cliente(
  snome varchar(80) NOT NULL,
  email varchar(30) NOT NULL,
  endereco varchar(40) NOT NULL,
- CONSTRAINT pk_cliente PRIMARY KEY(cpf)
+ CONSTRAINT pk_cliente PRIMARY KEY(cpf),
+ CONSTRAINT uk_cliente UNIQUE(email)
 );
 
 CREATE SEQUENCE livraria.pedido_num
