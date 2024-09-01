@@ -130,4 +130,8 @@ VALUES (1, 55566677788, (SELECT cod_livro FROM livraria.livros WHERE livraria.li
 INSERT INTO livraria.carrinholivro (carrinho_sessao, cliente_cpf, cod_livro, quantidade) 
 VALUES (1, 55566677788, (SELECT cod_livro FROM livraria.livros WHERE livraria.livros.titulo = 'O Hobbit') , 1);
 
+-- Buscando livro por titulo 
+SELECT * FROM livraria.livros WHERE livraria.livros.titulo LIKE '%Casmurro%';
 
+-- Buscando livro por autor 
+SELECT * FROM livraria.livros WHERE livraria.livros.autor LIKE '%Assis%';
