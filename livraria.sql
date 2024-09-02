@@ -102,10 +102,10 @@ SELECT * FROM livraria.livros WHERE livraria.livros.autor LIKE '%Assis%';
 
 -- Adicionando livros ao carrinho
 INSERT INTO livraria.carrinholivro (carrinho_sessao, cliente_cpf, cod_livro, quantidade) 
-VALUES (1, 55566677788, (SELECT cod_livro FROM livraria.livros WHERE livraria.livros.titulo = 'Dom Casmurro'), 2);
+VALUES ((SELECT sessao FROM livraria.carrinho WHERE livraria.carrinho.cliente_cpf = '55566677788' AND livraria.carrinho.data_criacao = '2024-08-09'), 55566677788, (SELECT cod_livro FROM livraria.livros WHERE livraria.livros.titulo = 'Dom Casmurro'), 2);
 
 INSERT INTO livraria.carrinholivro (carrinho_sessao, cliente_cpf, cod_livro, quantidade) 
-VALUES (1, 55566677788, (SELECT cod_livro FROM livraria.livros WHERE livraria.livros.titulo = 'O Hobbit') , 1);
+VALUES ((SELECT sessao FROM livraria.carrinho WHERE livraria.carrinho.cliente_cpf = '55566677788' AND livraria.carrinho.data_criacao = '2024-08-09'), 55566677788, (SELECT cod_livro FROM livraria.livros WHERE livraria.livros.titulo = 'O Hobbit') , 1);
 
 -- Inserindo pedidos
 INSERT INTO livraria.pedidos (data_pedido, total_pedido, cliente_cpf) VALUES ('2024-08-10', 99.80, 12345678901);
