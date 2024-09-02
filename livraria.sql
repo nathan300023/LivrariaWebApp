@@ -77,15 +77,35 @@ CONSTRAINT fk_telefone FOREIGN KEY (cliente_cpf) REFERENCES livraria.cliente(cpf
 
 -- Carregando Dados 
 
+-- Inserindo livros
+INSERT INTO livraria.livros (titulo, autor, editora, preco, estoque) VALUES ('Dom Casmurro', 'Machado de Assis', 'Editora X', 39.90, 100);
+INSERT INTO livraria.livros (titulo, autor, editora, preco, estoque) VALUES ('O Hobbit', 'J.R.R. Tolkien', 'Editora Y', 59.90, 50);
+INSERT INTO livraria.livros (titulo, autor, editora, preco, estoque) VALUES ('1984', 'George Orwell', 'Editora Z', 29.90, 75);
+
 -- Inserindo clientes
 INSERT INTO livraria.cliente (cpf, pnome, snome, email, endereco) VALUES (12345678901, 'Maria', 'Silva', 'maria.silva@example.com', 'Rua A, 123');
 INSERT INTO livraria.cliente (cpf, pnome, snome, email, endereco) VALUES (98765432100, 'João', 'Santos', 'joao.santos@example.com', 'Av. B, 456');
 INSERT INTO livraria.cliente (cpf, pnome, snome, email, endereco) VALUES (55566677788, 'Ana', 'Oliveira', 'ana.oliveira@example.com', 'Rua C, 789');
 
--- Inserindo livros
-INSERT INTO livraria.livros (titulo, autor, editora, preco, estoque) VALUES ('Dom Casmurro', 'Machado de Assis', 'Editora X', 39.90, 100);
-INSERT INTO livraria.livros (titulo, autor, editora, preco, estoque) VALUES ('O Hobbit', 'J.R.R. Tolkien', 'Editora Y', 59.90, 50);
-INSERT INTO livraria.livros (titulo, autor, editora, preco, estoque) VALUES ('1984', 'George Orwell', 'Editora Z', 29.90, 75);
+-- Inserindo telefones dos clientes
+INSERT INTO livraria.telefones (num_telefone, cliente_cpf) VALUES (1198765432, 12345678901);
+INSERT INTO livraria.telefones (num_telefone, cliente_cpf) VALUES (1191234567, 98765432100);
+
+-- Inserindo carrinhos
+INSERT INTO livraria.carrinho (data_criacao, cliente_cpf) VALUES ('2024-08-09', 55566677788);
+
+-- Buscando livro por titulo 
+SELECT * FROM livraria.livros WHERE livraria.livros.titulo LIKE '%Casmurro%';
+
+-- Buscando livro por autor 
+SELECT * FROM livraria.livros WHERE livraria.livros.autor LIKE '%Assis%';
+
+-- Adicionando livros ao carrinho
+INSERT INTO livraria.carrinholivro (carrinho_sessao, cliente_cpf, cod_livro, quantidade) 
+VALUES (1, 55566677788, (SELECT cod_livro FROM livraria.livros WHERE livraria.livros.titulo = 'Dom Casmurro'), 2);
+
+INSERT INTO livraria.carrinholivro (carrinho_sessao, cliente_cpf, cod_livro, quantidade) 
+VALUES (1, 55566677788, (SELECT cod_livro FROM livraria.livros WHERE livraria.livros.titulo = 'O Hobbit') , 1);
 
 -- Inserindo pedidos
 INSERT INTO livraria.pedidos (data_pedido, total_pedido, cliente_cpf) VALUES ('2024-08-10', 99.80, 12345678901);
@@ -93,9 +113,6 @@ INSERT INTO livraria.pedidos (data_pedido, total_pedido, cliente_cpf) VALUES ('2
 
 -- Buscando os pedidos 
 SELECT * FROM livraria.pedidos 
-
--- Buscando os livros (para saber o numeo do pedido e o código do livro)
-SELECT * FROM livraria.livros 
 
 -- Associando livros aos pedidos
 INSERT INTO livraria.pedidolivro (num_pedido, cod_livro, quantidade) 
@@ -112,26 +129,3 @@ INSERT INTO livraria.pedidolivro (num_pedido, cod_livro, quantidade)
 VALUES ((SELECT num_pedido FROM livraria.pedidos WHERE livraria.pedidos.cliente_cpf = '98765432100' AND livraria.pedidos.data_pedido = '2024-08-11'), 
         (SELECT cod_livro FROM livraria.livros WHERE livraria.livros.titulo = '1984'), 
 		1);
-
--- Inserindo telefones dos clientes
-INSERT INTO livraria.telefones (num_telefone, cliente_cpf) VALUES (1198765432, 12345678901);
-INSERT INTO livraria.telefones (num_telefone, cliente_cpf) VALUES (1191234567, 98765432100);
-
--- Inserindo carrinhos
-INSERT INTO livraria.carrinho (data_criacao, cliente_cpf) VALUES ('2024-08-09', 55566677788);
-
--- Buscando os livros (para saber o código do livro)
-SELECT * FROM livraria.livros 
-
--- Adicionando livros ao carrinho
-INSERT INTO livraria.carrinholivro (carrinho_sessao, cliente_cpf, cod_livro, quantidade) 
-VALUES (1, 55566677788, (SELECT cod_livro FROM livraria.livros WHERE livraria.livros.titulo = 'Dom Casmurro'), 2);
-
-INSERT INTO livraria.carrinholivro (carrinho_sessao, cliente_cpf, cod_livro, quantidade) 
-VALUES (1, 55566677788, (SELECT cod_livro FROM livraria.livros WHERE livraria.livros.titulo = 'O Hobbit') , 1);
-
--- Buscando livro por titulo 
-SELECT * FROM livraria.livros WHERE livraria.livros.titulo LIKE '%Casmurro%';
-
--- Buscando livro por autor 
-SELECT * FROM livraria.livros WHERE livraria.livros.autor LIKE '%Assis%';
