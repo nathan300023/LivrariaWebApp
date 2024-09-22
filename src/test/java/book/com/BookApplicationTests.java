@@ -1,10 +1,10 @@
-package br.uel.produtos;
+package book.com;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class ProdutosApplicationTests {
+class BookApplicationTests {
 
 	@Test
 	void contextLoads() {
