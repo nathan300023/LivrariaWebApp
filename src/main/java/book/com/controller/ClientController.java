@@ -1,9 +1,7 @@
 package book.com.controller;
 
-import book.com.entities.Book;
 import book.com.entities.Client;
 import book.com.records.DadosCadastroClient;
-import book.com.services.BookService;
 import book.com.services.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
