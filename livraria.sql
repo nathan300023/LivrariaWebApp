@@ -68,7 +68,7 @@ CONSTRAINT fk_livrocarrinho FOREIGN KEY (cod_livro) REFERENCES livraria.livros(c
 );
 
 CREATE TABLE livraria.telefones(
-num_telefone int NOT NULL,
+num_telefone VARCHAR(15) NOT NULL,
 cliente_cpf VARCHAR(11),
 CONSTRAINT pk_telefone PRIMARY KEY (num_telefone,cliente_cpf),
 CONSTRAINT fk_telefone FOREIGN KEY (cliente_cpf) REFERENCES livraria.cliente(cpf)
