@@ -23,15 +23,16 @@ public class PedidoService {
     public Pedido criarPedido(DadosCriacaoPedido dados) {
         String sql = "INSERT INTO livraria.pedidos (data_pedido, total_pedido, cliente_cpf) VALUES (?, ?, ?)";
         try (Connection connection = DriverManager.getConnection(url, user, password);
-             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+             PreparedStatement preparedStatement = connection.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS)) {
 
             preparedStatement.setDate(1, java.sql.Date.valueOf(dados.dataPedido()));
             preparedStatement.setDouble(2, dados.totalPedido());
             preparedStatement.setString(3, dados.clienteCpf());
 
-            var resultSet = preparedStatement.executeQuery();
-            if (resultSet.next()) {
-                int numPedido = resultSet.getInt("num_pedido");
+            preparedStatement.executeUpdate();
+            ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
+            if (generatedKeys.next()) {
+                int numPedido = generatedKeys.getInt("num_pedido");
                 return new Pedido(numPedido, dados.dataPedido(), dados.totalPedido(), dados.clienteCpf());
             }
         } catch (SQLException e) {
@@ -80,6 +81,34 @@ public class PedidoService {
         }
         return null; // Retorna null se não encontrar o pedido
     }
+
+    public void associaLivroAoPedido(int numPedido, int codLivro, int quantidade) {
+        String sql = "INSERT INTO livraria.pedidolivro (num_pedido, cod_livro, quantidade) VALUES (?, ?, ?)";
+
+        try (Connection connection = DriverManager.getConnection(url, user, password);
+             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+
+            // Define os parâmetros para o PreparedStatement
+            preparedStatement.setInt(1, numPedido); // Passando diretamente o número do pedido
+            preparedStatement.setInt(2, codLivro); // Código do livro
+            preparedStatement.setInt(3, quantidade); // Quantidade
+
+            // Executa a inserção
+            int rowsAffected = preparedStatement.executeUpdate();
+            if (rowsAffected > 0) {
+                System.out.println("Livro associado ao pedido com sucesso.");
+            } else {
+                System.out.println("Erro ao associar o livro ao pedido.");
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+
+
 
 
 

@@ -6,5 +6,3 @@ package book.com.records;
     }
 
 
-
-    // Vídeo 7 no 4:30 como fazer Endereço do Cliente

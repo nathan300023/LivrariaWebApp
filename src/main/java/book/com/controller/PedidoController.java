@@ -1,6 +1,7 @@
 package book.com.controller;
 
 import book.com.entities.Pedido;
+import book.com.records.DadosAssociacaoLivro;
 import book.com.records.DadosCriacaoPedido;
 import book.com.services.ClientService;
 import book.com.services.PedidoService;
@@ -43,5 +44,18 @@ public class PedidoController {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
+
+    @PostMapping("/associar-livro")
+    public ResponseEntity<String> associarLivroAoPedido(@RequestBody DadosAssociacaoLivro dados) {
+        PedidoService pedidoService = new PedidoService();
+
+        try {
+            pedidoService.associaLivroAoPedido(dados.numPedido(), dados.codLivro(), dados.quantidade());
+            return new ResponseEntity<>("Livro associado ao pedido com sucesso.", HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>("Erro ao associar o livro ao pedido.", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 
 }
