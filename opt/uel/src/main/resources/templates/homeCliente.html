@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Home Cliente</title>
+    <style>
+        .catalogo, .carrinho {
+            border: 1px solid #ddd;
+            padding: 10px;
+            margin: 10px;
+        }
+    </style>
+</head>
+<body>
+<div th:if="${cliente != null}">
+    <h3>Bem-vindo, <span th:text="${cliente.pnome}"></span>!</h3>
+    <input type="hidden" id="clienteCpf" th:value="${cliente.cpf}"/> <!-- Campo oculto para o CPF -->
+</div>
+
+<div style="display: flex;">
+    <!-- Catálogo de Livros -->
+    <div class="catalogo" style="flex: 1; margin-right: 20px;">
+        <h2>Catálogo</h2>
+        <table id="bookList">
+            <thead>
+            <tr>
+                <th>Título</th>
+                <th>Autor</th>
+                <th>Preço</th>
+                <th>ISBN</th>
+                <th>Ação</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="livro : ${livros}">
+                <td th:text="${livro.titulo}"></td>
+                <td th:text="${livro.autor}"></td>
+                <td th:text="${livro.preco}"></td>
+                <td th:text="${livro.isbn}"></td>
+                <td>
+                    <button type="button" data-isbn="${livro.isbn}" data-cpf="${cliente.cpf}" class="adicionaCarrinho">Adicionar ao Carrinho</button>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- Include the JavaScript file at the end of the body -->
+<script src="path/to/your/user.js"></script>
+<script>
+    $(document).ready(function() {
+        attachAddToCartEvent();
+    });
+</script>
+</body>
+</html>
